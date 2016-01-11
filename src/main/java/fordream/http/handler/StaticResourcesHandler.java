@@ -1,8 +1,8 @@
-package http.handler;
+package fordream.http.handler;
 
 import fi.iki.elonen.NanoHTTPD;
-import http.MimeHelper;
-import http.RequestHandler;
+import fordream.http.AbstractRequestHandler;
+import fordream.http.MimeHelper;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,10 +14,10 @@ import static fi.iki.elonen.NanoHTTPD.Response.Status;
 import static fi.iki.elonen.NanoHTTPD.newFixedLengthResponse;
 
 /**
- * Created by forDream on 2015-12-26.
+ * Created by forDream on 2015-12-26.<br/>
  * This handler should be resisted in the end. it processes all request any way.
  */
-public class StaticResourcesHandler implements RequestHandler {
+public class StaticResourcesHandler extends AbstractRequestHandler {
 
     @Override
     public boolean doHandler(Map<String, String> args, String uri) {
@@ -25,7 +25,7 @@ public class StaticResourcesHandler implements RequestHandler {
     }
 
     @Override
-    public NanoHTTPD.Response onRequest(String root, Map<String, String> args, NanoHTTPD.IHTTPSession session) {
+    protected NanoHTTPD.Response onGet(String root, Map<String, String> args, NanoHTTPD.IHTTPSession session) {
         String path;
         if ("/".equals(session.getUri())) {
             path = root + File.separator + "index.html"; // defualt request file

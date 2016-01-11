@@ -1,4 +1,4 @@
-package http;
+package fordream.http;
 
 import fi.iki.elonen.NanoHTTPD;
 

@@ -1,6 +1,6 @@
-package http;
+package fordream.http;
 
-import http.handler.StaticResourcesHandler;
+import fordream.http.handler.StaticResourcesHandler;
 
 /**
  * Created by forDream on 2016-01-11.
