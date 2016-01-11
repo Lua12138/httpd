@@ -60,11 +60,10 @@ public class DreamHttpd extends NanoHTTPD {
     public Response serve(IHTTPSession session) {
         try {
             Map<String, String> args = session.getParms();
-            String action = args.get("action");
 
             Response response = null;
             for (RequestHandler handler : this.handlers) {
-                if (handler.doHandler(action, session.getUri())) {
+                if (handler.doHandler(args, session.getUri())) {
                     response = handler.onRequest(this.webRoot, args, session);
                     break;
                 }

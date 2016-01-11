@@ -15,11 +15,13 @@ import static fi.iki.elonen.NanoHTTPD.newFixedLengthResponse;
 
 /**
  * Created by forDream on 2015-12-26.
+ * This handler should be resisted in the end. it processes all request any way.
  */
 public class StaticResourcesHandler implements RequestHandler {
+
     @Override
-    public boolean doHandler(String action, String uri) {
-        return action == null;
+    public boolean doHandler(Map<String, String> args, String uri) {
+        return true;
     }
 
     @Override
