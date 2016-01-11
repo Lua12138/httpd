@@ -2,6 +2,8 @@ package fordream.http;
 
 import fi.iki.elonen.NanoHTTPD;
 
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 import static fi.iki.elonen.NanoHTTPD.*;
@@ -15,11 +17,11 @@ public abstract class AbstractRequestHandler implements RequestHandler {
         return defaultResponse();
     }
 
-    protected Response onPut(String root, Map<String, String> args, NanoHTTPD.IHTTPSession session) {
+    protected Response onPut(String root, Map<String, String> args, Map<String, String> files, NanoHTTPD.IHTTPSession session) {
         return defaultResponse();
     }
 
-    protected Response onPost(String root, Map<String, String> args, NanoHTTPD.IHTTPSession session) {
+    protected Response onPost(String root, Map<String, String> args, Map<String, String> files, NanoHTTPD.IHTTPSession session) {
         return defaultResponse();
     }
 
@@ -69,25 +71,34 @@ public abstract class AbstractRequestHandler implements RequestHandler {
     @Override
     public Response onRequest(String root, Map<String, String> args, NanoHTTPD.IHTTPSession session) {
         NanoHTTPD.Method method = session.getMethod();
-        switch (method) {
-            case GET:
-                return this.onGet(root, args, session);
-            case PUT:
-                return this.onPut(root, args, session);
-            case POST:
-                return this.onPost(root, args, session);
-            case DELETE:
-                return this.onDelete(root, args, session);
-            case HEAD:
-                return this.onHead(root, args, session);
-            case OPTIONS:
-                return this.onOptions(root, args, session);
-            case TRACE:
-                return this.onTrace(root, args, session);
-            case CONNECT:
-                return this.onConnect(root, args, session);
-            case PATCH:
-                return this.onPatch(root, args, session);
+        try {
+            switch (method) {
+                case GET:
+                    return this.onGet(root, args, session);
+                case PUT:
+                case POST:
+                    Map<String, String> files = new HashMap<>();
+                    session.parseBody(files);
+                    return method == Method.PUT ?
+                            this.onPut(root, args, files, session) :
+                            this.onPost(root, args, files, session);
+                case DELETE:
+                    return this.onDelete(root, args, session);
+                case HEAD:
+                    return this.onHead(root, args, session);
+                case OPTIONS:
+                    return this.onOptions(root, args, session);
+                case TRACE:
+                    return this.onTrace(root, args, session);
+                case CONNECT:
+                    return this.onConnect(root, args, session);
+                case PATCH:
+                    return this.onPatch(root, args, session);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ResponseException e) {
+            e.printStackTrace();
         }
         return null;
     }
