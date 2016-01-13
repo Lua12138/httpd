@@ -6,6 +6,9 @@ import static fi.iki.elonen.NanoHTTPD.IHTTPSession;
 import static fi.iki.elonen.NanoHTTPD.Response;
 
 public interface RequestHandler {
+    public static final String MIME_JSON = "application/json";
+    public static final String MIME_XML = "application/xml";
+
     /**
      * @param args the params of the request
      * @param uri  the uri of the request
