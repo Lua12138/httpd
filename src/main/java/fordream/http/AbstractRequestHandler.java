@@ -59,6 +59,18 @@ public abstract class AbstractRequestHandler implements RequestHandler {
         return newFixedLengthResponse(Status.METHOD_NOT_ALLOWED, MIME_PLAINTEXT, null);
     }
 
+    private void updatePostData(Map<String, String> args, String postdata) {
+        if (postdata != null) {
+            String[] datas = postdata.split("&");
+            for (String data : datas) {
+                int pos = data.indexOf('=');
+                String key = data.substring(0, pos);
+                String value = data.substring(pos + 1);
+                args.put(key, value);
+            }
+        }
+    }
+
     /**
      * dispatch the request by method.<br/>
      * Override this method is not recommended
@@ -79,6 +91,8 @@ public abstract class AbstractRequestHandler implements RequestHandler {
                 case POST:
                     Map<String, String> files = new HashMap<>();
                     session.parseBody(files);
+                    String postData = files.get("postData");
+                    updatePostData(args, postData);
                     return method == Method.PUT ?
                             this.onPut(root, args, files, session) :
                             this.onPost(root, args, files, session);
