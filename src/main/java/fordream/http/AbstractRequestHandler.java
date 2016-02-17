@@ -50,7 +50,7 @@ public abstract class AbstractRequestHandler implements RequestHandler {
     }
 
     /**
-     * override the method to change the default response of unemployment method.<br/>
+     * override the method to change the default response of unemployment method.<br>
      * by default, returns 405.
      *
      * @return the default response
@@ -72,13 +72,13 @@ public abstract class AbstractRequestHandler implements RequestHandler {
     }
 
     /**
-     * dispatch the request by method.<br/>
+     * dispatch the request by method.<br>
      * Override this method is not recommended
      *
      * @param root    the url of the HTTP server's root
      * @param args    the params of the request
      * @param session information of the session
-     * @return
+     * @return the response that will be sent to client. if return null, will sent a 501 NOT IMPLEMENTED response to client.
      */
     @Override
     public Response onRequest(String root, Map<String, String> args, NanoHTTPD.IHTTPSession session) {

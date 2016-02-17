@@ -14,7 +14,7 @@ import static fi.iki.elonen.NanoHTTPD.Response.Status;
 import static fi.iki.elonen.NanoHTTPD.newFixedLengthResponse;
 
 /**
- * Created by forDream on 2015-12-26.<br/>
+ * Just return the static resource. If there is no file can be found return the 404 HTTP Code(NotFound)
  * This handler should be resisted in the end. it processes all request any way.
  */
 public class StaticResourcesHandler extends AbstractRequestHandler {

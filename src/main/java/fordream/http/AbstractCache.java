@@ -7,7 +7,7 @@ import java.util.Map;
 import static fi.iki.elonen.NanoHTTPD.Response;
 
 /**
- * Created by forDream on 2016-01-13.
+ * Support response from cache
  */
 public abstract class AbstractCache implements RequestHandler {
     private final RequestHandler handler;
@@ -19,18 +19,19 @@ public abstract class AbstractCache implements RequestHandler {
     /**
      * invoked before call the real object. return a Response if the request can be cached, otherwise null.
      *
-     * @param root
-     * @param args
-     * @param session
-     * @return
+     * @param root    the url of web root.
+     * @param args    the params of request.
+     * @param session NanoHTTPD request object.
+     * @return null if there is no cache, else return the cached response.
      */
     public abstract Response canCache(String root, Map<String, String> args, NanoHTTPD.IHTTPSession session);
 
     /**
-     * cache the response.
+     * cache the response.<br>
+     * it won't be invoked if the current response is from cache.
      *
-     * @param response
-     * @param session
+     * @param response the reponse will be cached.
+     * @param session  NanoHTTPD request object.
      */
     public abstract void doCache(Response response, NanoHTTPD.IHTTPSession session);
 

@@ -9,7 +9,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 /**
- * Created by forDream on 2015-12-26.
+ * According the ext. to return MIME.
  */
 public class MimeHelper {
     private static MimeHelper instance;

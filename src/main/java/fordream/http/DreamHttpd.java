@@ -9,7 +9,10 @@ import java.util.Map;
 import static fi.iki.elonen.NanoHTTPD.Response.Status;
 
 /**
- * Http Server
+ * Http Server.<br>
+ * If no handler to handle a request, it will return the 501 HTTP Code(NOT IMPLEMENTED).<br>
+ * If there are any uncatched exception, it will return the 500 HTTP Code(SERVER INTERNAL ERROR).<br>
+ * The order of handler that you register is the order of response. This means that if there are two handlers work with a request, the first handler can handle the request, and the last will not be able to handle it.
  */
 public class DreamHttpd extends NanoHTTPD {
     private List<RequestHandler> handlers;
@@ -25,7 +28,7 @@ public class DreamHttpd extends NanoHTTPD {
     /**
      * register new http request handler
      *
-     * @param handler
+     * @param handler the handler you want register.
      */
     public void registerHandler(RequestHandler handler) {
         boolean repeat = false;
@@ -44,7 +47,7 @@ public class DreamHttpd extends NanoHTTPD {
     /**
      * remove the registered request handler
      *
-     * @param handler
+     * @param handler the handler you want to remove
      */
     public void removeHandler(RequestHandler handler) {
         for (int i = 0; i < this.handlers.size(); i++) {
@@ -72,8 +75,9 @@ public class DreamHttpd extends NanoHTTPD {
             if (response == null)
                 // return no content ,if no handler.
                 return newFixedLengthResponse(Status.NOT_IMPLEMENTED, MIME_PLAINTEXT, null);
-            else
+            else {
                 return response;
+            }
         } catch (Exception e) {
             return newFixedLengthResponse(Status.INTERNAL_ERROR, MIME_PLAINTEXT, e.getMessage());
         }
