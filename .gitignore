@@ -4,7 +4,7 @@
 .mtj.tmp/
 
 # Package Files #
-*.jar
+#*.jar
 *.war
 *.ear
 
@@ -66,4 +66,4 @@ $RECYCLE.BIN/
 .gradle
 .idea
 build
-gradle
+#gradle
