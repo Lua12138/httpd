@@ -3,6 +3,7 @@ package testcase;
 import fordream.http.DreamHttpd;
 import fordream.http.handler.StaticResourcesHandler;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import testhealper.HttpRequester;
@@ -52,49 +53,47 @@ public class DreamHttpdTest {
     protected boolean checkFile(InputStream is, String file) throws IOException {
 
         InputStream isFile = new FileInputStream(file);
-        if (is.available() != isFile.available()) {
-            is.close();
-            isFile.close();
-            return false;
-        }
 
         int b;
         while (-1 != (b = is.read())) {
             if (b != isFile.read()) {
                 is.close();
                 isFile.close();
+                System.err.println("Content Error");
                 return false;
             }
         }
 
         is.close();
+
+        boolean bool = isFile.read() == -1;
         isFile.close();
-        return true;
+        if (!bool) System.err.println("Length Error");
+        return bool;
     }
 
     @Test
     public void response404Test() throws IOException {
         HttpRequester.HttpResponse response = HttpRequester.doRequest(this.buildUrl("no-exists.resource"), "GET", null, null, false);
-        assert response.getResponseCode() == 404;
+        Assert.assertEquals(404, response.getResponseCode());
     }
 
     @Test
     public void response200Test() throws IOException {
         HttpRequester.HttpResponse response = HttpRequester.doRequest(this.buildUrl("test_mime.json"), "GET", null, null, false);
-        assert response.getResponseCode() == 200;
+        Assert.assertEquals(200, response.getResponseCode());
     }
 
     @Test
     public void response405Test() throws IOException {
         HttpRequester.HttpResponse response = HttpRequester.doRequest(this.buildUrl("test_mime.json"), "HEAD", null, null, false);
-        assert response.getResponseCode() == 405;
-
+        Assert.assertEquals(405, response.getResponseCode());
     }
 
     @Test
     public void downloadOnGetTest() throws IOException {
         InputStream inputStream = HttpRequester.doGet(this.buildUrl("test_mime.json"), null, null);
-        assert this.checkFile(inputStream, "src/test/resources/test_mime.json");
+        Assert.assertTrue(this.checkFile(inputStream, "src/test/resources/test_mime.json"));
     }
 
     @Test
@@ -111,7 +110,7 @@ public class DreamHttpdTest {
         while (-1 != (b = is.read()))
             builder.append((char) b);
 
-        assert builder.indexOf(this.requestHeaders.get("test")) > 0;
-        assert "application/json".equals(response.getResponseHeaders().get("Content-Type").get(0));
+        Assert.assertTrue(builder.indexOf(this.requestHeaders.get("test")) > 0);
+        Assert.assertEquals("application/json", response.getResponseHeaders().get("Content-Type").get(0));
     }
 }

@@ -2,6 +2,7 @@ package testcase;
 
 import fordream.http.SSLDreamHttpd;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import testhealper.HttpRequester;
@@ -40,12 +41,12 @@ public class SSLDreamHttpdTest {
     @Test
     public void httpTest() throws IOException {
         HttpRequester.HttpResponse response = HttpRequester.doRequest(new URL("http://127.0.0.1:" + this.httpPort), "GET", null, null, false);
-        assert response.getResponseCode() == 200;
+        Assert.assertEquals(200, response.getResponseCode());
     }
 
     @Test
     public void httpsTest() throws IOException {
         HttpRequester.HttpResponse response = HttpRequester.doRequest(new URL("https://127.0.0.1:" + this.httpsPort), "GET", null, null, false);
-        assert response.getResponseCode() == 200;
+        Assert.assertEquals(200, response.getResponseCode());
     }
 }

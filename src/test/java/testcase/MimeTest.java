@@ -1,6 +1,7 @@
 package testcase;
 
 import fordream.http.MimeHelper;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -31,7 +32,7 @@ public class MimeTest {
     @Test
     public void baseTest() {
         for (String[] strings : TEST_CASE) {
-            assert this.helper.getMime(new File(strings[0])).equals(strings[1]);
+            Assert.assertEquals(strings[1], this.helper.getMime(new File(strings[0])));
         }
     }
 
@@ -39,7 +40,7 @@ public class MimeTest {
     public void extraTest() {
         this.helper.loadExtraMime("src/test/resources/test_mime.json");
         for (String[] strings : EXTRA_TEST_CASE) {
-            assert this.helper.getMime(new File(strings[0])).equals(strings[1]);
+            Assert.assertEquals(strings[1], this.helper.getMime(new File(strings[0])));
         }
     }
 }
