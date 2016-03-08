@@ -1,5 +1,6 @@
 package fordream.http;
 
+import fi.iki.elonen.NanoHTTPD;
 import fordream.http.handler.StaticResourcesHandler;
 
 /**
