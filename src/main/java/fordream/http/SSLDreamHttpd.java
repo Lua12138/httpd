@@ -5,7 +5,7 @@ import fi.iki.elonen.NanoHTTPD;
 import java.io.IOException;
 
 /**
- * Support both HTTP & HTTPS
+ * Support both HTTP and HTTPS
  */
 public class SSLDreamHttpd {
     private DreamHttpd httpd;
@@ -28,7 +28,7 @@ public class SSLDreamHttpd {
     }
 
     /**
-     * register new http request handler both HTTP & HTTPS
+     * register new http request handler both HTTP and HTTPS
      *
      * @param handler the handler you want register.
      */
@@ -38,7 +38,7 @@ public class SSLDreamHttpd {
     }
 
     /**
-     * remove the registered request handler both HTTP & HTTPS
+     * remove the registered request handler both HTTP and HTTPS
      *
      * @param handler the handler you want to remove
      */
