@@ -1,7 +1,11 @@
+package testcase;
+
 import fordream.http.SSLDreamHttpd;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import testhealper.HttpRequester;
+import testhealper.TestRequetHandler;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,7 +33,7 @@ public class SSLDreamHttpdTest {
     }
 
     @After
-    public void endup() {
+    public void destroy() {
         this.httpd.stop();
     }
 

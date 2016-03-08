@@ -1,3 +1,5 @@
+package testhealper;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -206,14 +208,16 @@ public class HttpRequester {
         log("Request Method -> %s", httpConnection.getRequestMethod());
         log("Response Code -> %d", responseCode);
 
-        result.setResponse(httpConnection.getInputStream());
-        if (autoGzip) {
-            if (httpConnection.getContentEncoding() != null && httpConnection.getContentEncoding().toLowerCase().equals("gzip"))
-                result.setResponse(new GZIPInputStream(httpConnection.getInputStream()));
-            else
-                result.setResponse(httpConnection.getInputStream());
-        } else
+        if (responseCode == 200) {
             result.setResponse(httpConnection.getInputStream());
+            if (autoGzip) {
+                if (httpConnection.getContentEncoding() != null && httpConnection.getContentEncoding().toLowerCase().equals("gzip"))
+                    result.setResponse(new GZIPInputStream(httpConnection.getInputStream()));
+                else
+                    result.setResponse(httpConnection.getInputStream());
+            } else
+                result.setResponse(httpConnection.getInputStream());
+        }
         return result;
     }
 }

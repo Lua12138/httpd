@@ -1,7 +1,8 @@
+package testhealper;
+
 import fi.iki.elonen.NanoHTTPD;
 import fordream.http.AbstractRequestHandler;
 
-import java.util.Date;
 import java.util.Map;
 
 /**
@@ -15,15 +16,11 @@ public class TestRequetHandler extends AbstractRequestHandler {
 
     @Override
     public NanoHTTPD.Response onRequest(String root, Map<String, String> args, NanoHTTPD.IHTTPSession session) {
-        String html = "<html>" +
-                "<head>" +
-                "<title>Test Html</title>" +
-                "</head>" +
-                "<body>" +
-                "<h1> --- Now is " + new Date().toLocaleString() + " --- </h1>" +
-                "</body>" +
-                "</html>";
-        return NanoHTTPD.newFixedLengthResponse(NanoHTTPD.Response.Status.OK, NanoHTTPD.MIME_HTML, html);
+        String html = "{\"method\" : \"" + session.getMethod().name() + "\", " +
+                "\"args\" : \"" + args.get("test") + "\", " +
+                "\"time\":" + System.currentTimeMillis() +
+                "}";
+        return NanoHTTPD.newFixedLengthResponse(NanoHTTPD.Response.Status.OK, MIME_JSON, html);
 
     }
 }
